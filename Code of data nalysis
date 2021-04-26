@@ -1,1 +1,48 @@
+# Weather datasheet analysis
+import pandas as pd
+data = pd.read_csv(r"C:\Users\DELLHK\Downloads\1. Weather Data.csv")   #export csv file in python
+data.head(10)      #top 10 rows show
+data.columns       #show colmns
+data.shape         #row ,cloumn
+data.dtypes        #type
 
+# Unique value of wind speed
+data["Wind Speed_km/h"].unique()
+
+# Number of time weather is clear
+data["Weather"].value_counts()      #valuecount
+data[data.Weather=="Clear"]         #filtering
+data.groupby("Weather").get_group("Clear")         #groubby
+
+# Null value in data
+data.isnull().sum()
+
+# change column name 'weather' to 'weathers'
+data.rename(columns = {'Weather' : 'Weathers'}).head()
+
+#mean/average of visbility
+data.head()
+data.Visibility_km.mean()
+
+#find instance of 'Snow'
+data.Weather.value_counts()          #method 1
+data[data.Weather == 'Snow']        # method 2 (filtering) 
+data[data.Weather.str.contains('Snow')]   # method 3 (str.contains(''))
+
+# find instance in which visibility = 25 and wind speed more than 21
+data.Visibility_km.dtype
+data[(data.Visibility_km == 25) & (data['Wind Speed_km/h'] > 24)].head()
+
+# Mean value of eaach column against weather condition
+data.groupby('Weather').mean()
+
+#Maximum and minimum value in all weather conditions
+data.groupby('Weather').min()
+data.groupby('Weather').max()
+
+# all instance of fog
+data[data.Weather == 'Fog']
+
+# Show Weather is  clear and humidity more than 50 or visibility is more than 40
+data.head(2)
+data[((data.Weather=='Clear') & (data['Rel Hum_%'] > 50) | (data.Visibility_km > 40))]
